@@ -16,10 +16,9 @@ Vagrant.configure("2") do |config|
                  -e MAX_TICK_TIME=120000 \
                  -e EULA=TRUE \
                  -e MEMORY=1500m \
-                 -e SERVER_NAME="Gideå Miners" \
                  -e WHITELIST=kohnwincent,kitain,irongon,diamondcrusher31 \
                  -e OPS=kohnwincent,kitain \
-                 -e SERVER_NAME=Köhns-1 \
+                 -e SERVER_NAME=Kohns-1 \
                  -e ICON=https://media-minecraftforum.cursecdn.com/attachments/6/180/635404578945887159.png \ 
                  --name kohns-1 \
                  --restart=always \
