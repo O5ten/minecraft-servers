@@ -12,19 +12,19 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 25567, host: 25567
   config.vm.synced_folder "server_data", "/home/vagrant/server_data", create: true, SharedFoldersEnableSymlinksCreate: false
   config.vm.provision "shell", inline: <<-SHELL
-      echo ==================== Launching Köhns 1 ====================
+      echo ==================== Launching Norrland ====================
       
-      mkdir -p /home/vagrant/server_data/kohns-1
+      mkdir -p /home/vagrant/server_data/norrland
       docker run  -d -p 25567:25565 \
-                  -v /home/vagrant/server_data/kohns-1:/data \
-                  --name kohns-1 \
+                  -v /home/vagrant/server_data/norrland:/data \
+                  --name norrland \
                   --restart=always \
                   -e MAX_TICK_TIME=120000 \
                   -e EULA=TRUE \
                   -e MEMORY=2500m \
                   -e WHITELIST=kohnwincent,kitain,irongon,diamondcrusher31 \
                   -e OPS=kohnwincent,kitain \
-                  -e SERVER_NAME=Kohns-1 \
+                  -e SERVER_NAME=Norrland \
                   -e ICON="https://media-minecraftforum.cursecdn.com/attachments/6/180/635404578945887159.png" itzg/minecraft-server:latest 
   SHELL
   
@@ -34,10 +34,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL 
       echo ==================== Launching Minecraft Router ====================
       docker run -d -p 25565:25565 -p 80:80 \
-                  --link kohns-1:kohns-1 \
+                  --link norrland:norrland \
                   --name minecraft-router \
                   itzg/mc-router --port=25565 \
-                                 --mapping norrland.05ten.se=kohns-1:25565 \
+                                 --mapping norrland.05ten.se=norrland:25565 \
                                  --api-binding :80
   SHELL
 
@@ -46,8 +46,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
       echo ==================== Launching Minecraft Status ====================
       docker run -d -p 8085:8080 \
-                --link kohns-1 \
+                --link norrland \
                 --name minecraft-status \
-                itzg/mc-status --mcstatus.servers=kohns-1 --cors.allowAll=true
+                itzg/mc-status --mcstatus.servers=norrland --cors.allowAll=true
   SHELL
 end

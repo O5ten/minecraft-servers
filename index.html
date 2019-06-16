@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="5" >
+    <title>minecraft.05ten.se</title>
+    <style>
+      body {
+            background: rgb(98, 98, 155);
+            color: white;
+            font-size: xx-large;
+            font-family: monospace;
+            vertical-align: middle;
+      }
+      td {
+          padding: 16px; 
+      }
+      th {
+          padding: 16px;
+      }
+    </style>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $.get( "/status", function( data ) {
+            let resultSet =  $( "#resultSet" )
+            let header = $("<tr></tr>")
+            header.append("<th></th><th>Where</th><th>Version</th><th>What</th><th>Online</th><th>Players</th>")
+            resultSet.text("");
+            resultSet.append(header);
+            let rows = data.map((v) => {
+                let row = $("<tr></tr>")
+                row.append( "<td><img src=\"data:image/png;base64, "+ v.icon +"\"></img></td>" );
+                row.append( "<td>" + v.host.toLowerCase() + ".05ten.se</td>")
+                row.append( "<td>" + v.version + "</td>");
+                row.append( "<td>" + v.description + "</td>" );
+                row.append( "<td>" + v.players.online + "/"+ v.players.max + "");
+                row.append( "<td>" + v.players.players.map(v => v.name).join('<br/>') + "</td>" );
+                return row;
+            });
+
+            if(rows.length > 0){
+                resultSet.append(rows);
+            } else {
+                resultSet.text("Ongoing system maintenance, please hold ..")
+            }
+        });      
+    </script>
+    <H1>minecraft.05ten.se</H1>
+    <table id="resultSet">
+    </table>
+</body>
+</html>
